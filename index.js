@@ -19,7 +19,6 @@ io.on('connection', function(socket){
 	// Log some information to the console.
 	console.log('Diceboy << User Connected');
 
-	// Yep.
 	// Create a new data object, set initial values, and push it into the client list.
 	//var clientInfo = new Object();
 	//clientInfo.id = socket.id;
