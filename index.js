@@ -9,7 +9,7 @@ var os = require('os');
 var url = require('url');
 
 // Store the port number.
-var http_port = 3000;
+var http_port = 8080;
 
 // Stores the client information.
 //var clients = [];
