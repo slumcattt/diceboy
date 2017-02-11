@@ -11,9 +11,6 @@ var url = require('url');
 // Store the port number.
 var http_port = 8080;
 
-// Stores the client information.
-//var clients = [];
-
 // Statically serv files from the public folder.
 app.use(express.static('public'));
 
@@ -27,11 +24,14 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
 	// Log some information to the console.
 	console.log('Diceboy << User Connected');
+	
+	// Send a message to the client that just connected.
+	socket.emit('client_connected', socket.id);
 
 	// Create a new data object, set initial values, and push it into the client list.
 	//var clientInfo = new Object();
 	//clientInfo.id = socket.id;
-	//clients.push(clientInfo);
+	//g_clients.push(clientInfo);
 
 	// Send a message to the client notifying it of its socked id.
 	//socket.broadcast.to(socket.id).emit('clientinfo', clientInfo);
@@ -42,9 +42,9 @@ io.on('connection', function(socket){
 		console.log('Diceboy << User Disconnected');
 		
 		// Iterate through the client list.
-		//for (var i = 0, len = clients.length; i < len; ++i){
+		//for (var i = 0, len = g_clients.length; i < len; ++i){
 		//	// Get the specific client.
-		//	var c = clients[i];
+		//	var c = g_clients[i];
 		//
 		//	// If this is our client...
 		//	if (c.clientId == socket.id){
@@ -80,8 +80,8 @@ io.on('connection', function(socket){
 			alias: data.alias,
 			colour: data.colour,
 			description: data.description,
-			id: data.id,
 			roll: roll,
+			username: data.username,
 			value: data.value
 		};
 		
