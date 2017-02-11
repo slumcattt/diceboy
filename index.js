@@ -1,4 +1,6 @@
-var app = require('express')();
+// Requirements.
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var util = require("util");
@@ -6,11 +8,18 @@ var fs = require('fs');
 var os = require('os');
 var url = require('url');
 
+// Store the port number.
+var http_port = 3000;
+
 // Stores the client information.
 //var clients = [];
 
+// Statically serv files from the public folder.
+app.use(express.static('public'));
+
+// Get everything else as the index file.
 app.get('/', function(req, res){
-	res.sendFile(__dirname + '/index.html');
+	res.sendFile(__dirname + '/public/index.html');
 });
 
 
@@ -82,6 +91,8 @@ io.on('connection', function(socket){
 });
 
 
-http.listen(3000, function(){
-	console.log('Diceboy << Listening on *:3000');
+// Begin listening on the specified port.
+http.listen(http_port, function(){
+	// Echo a message to the console.
+	console.log('Diceboy << Listening on *:' + http_port);
 });

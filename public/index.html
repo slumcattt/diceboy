@@ -1,60 +1,88 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
+    <title>Diceboy</title>
 	
     <style>
-		@import url('https://fonts.googleapis.com/css?family=Kanit:800');
-	
+		@import url('https://fonts.googleapis.com/css?family=Prosto+One');
+		
 		body { 
 			background:			#FFFFFF;
 			margin:				0px;
+			overflow:			hidden;
 			padding:			0px;
 		}
 	  
 	
 		/* Roll Button */
 		div.db_button_roll {
+			color:				#ffffff;
+			
+			cursor:				pointer;
+			float:				left;
+			height:				38px;
+			margin:				0px 4px 0px 4px;
+			padding:			0px 0px 0px 0px;
+			position:			relative;
+			width:				38px;;
+			
+			user-select: none;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: 	none;
+			-ms-user-select: 	none;
+			
+			z-index:			50;
+		}
+
+		div.db_button_roll_back {
 			background-color:	#000000;
 			color:				#ffffff;
 			
-			font-family:        Verdana;
-			font-size:			18px;
-			font-weight:		bold;
-		
 			cursor:				pointer;
 			float:				left;
-			height:				24px;
-			letter-spacing:		0px;
-			margin:				8px 0.4% 0px 0.4%;
+			height:				32px;
+			margin:				0px;
 			padding:			0px;
 			position:			relative;
-			text-align:			center;
-			top:				-15px;
-			vertical-align:		middle;
-			width:				9%;
+			width:				32px;;
 			
-			
-			-moz-border-radius:	8px;
-			-webkit-border-radius:8px;
-			border-radius:		8px;
-			border:				2px solid #ffffff;
+			-moz-border-radius:	32px;
+			-webkit-border-radius:32px;
+			border-radius:		32px;
+			border:				3px solid #ffffff;
 			display:			inline-block;
 			
 			user-select: none;
 			-webkit-touch-callout: none;
 			-webkit-user-select: none;
 			-khtml-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-
-		}.db_button_roll:hover {
-			background-color:	#000000;
-			border:				2px solid #ffffff;
-			
-			color:				#ff8000;
+			-moz-user-select: 	none;
+			-ms-user-select: 	none;
 		}
 
+		div.db_button_roll_text {
+			color:				#ffffff;
+			
+			font-family:        Prosto One;
+			font-size:			16px;
+			font-weight:		bold;
+		
+			cursor:				pointer;
+			height:				32px;
+			margin:				0px;
+			padding:			0px;
+			width:				32px;;
+			
+			align-items:		center;
+			display:			flex;
+			justify-content:	center;
+
+		}.db_button_roll_text:hover {
+			color:				#ff8000;
+		}
+		
 		div.db_buttons {
 			margin:				0px;
 			padding:			0px;
@@ -63,7 +91,7 @@
 		
 		div.db_header {
 			background-color:	#000000;
-			height:				90px;
+			height:				110px;
 			margin:				0px;
 			padding:			0px;
 			width:				100%;
@@ -86,11 +114,37 @@
 			padding:			8px 8px 0px 8px;
 		}
 		
-		div.db_colour_select {
-			border:				1px solid #ffffff;
+		div.menu_colour_select {
+			align-items:		center;
+			border:				2px solid #ffffff;
+			color:				#ffffff;
+			cursor:				pointer;
+			cursor: 			hand;
+			display:			flex;
 			float:				left;
+			font-family:        Prosto One;
+			font-size:			36px;
+			font-weight:		bold;
 			height:				30px;
+			justify-content:	center;
 			margin:				0px 8px 0px 0px;
+			padding:			0px;
+			width:				30px;
+		}
+
+		span.menu_colour_select_sign {
+			align-items:		center;
+			color:				#ffffff;
+			cursor:				pointer;
+			cursor: 			hand;
+			display:			flex;
+			float:				left;
+			font-family:        Prosto One;
+			font-size:			36px;
+			font-weight:		bold;
+			height:				30px;
+			justify-content:	center;
+			margin:				0px;
 			padding:			0px;
 			width:				30px;
 		}
@@ -133,7 +187,6 @@
 			-moz-user-select: none;
 			-ms-user-select: none;
 		}
-
 		
 		
 		/* Menu Options */
@@ -172,6 +225,7 @@
 			margin:				0px;
 			padding:			0px;
 			position:			relative;
+			vertical-align:		middle;
 			width:				50px;
 
 			filter: 			invert(0%);
@@ -230,6 +284,24 @@
 			position:			relative;
 			width:				50px;
 		}
+		
+		span.menu_option_text {
+			align-items:		center;
+			color:				#FFFFFF;
+			display:			flex;
+			font-family:        Arial Narrow;
+			font-size:			20px;
+			font-weight:		bold;
+			height:				50px;
+			justify-content:	center;
+			margin:				0px;
+			padding:			0px;
+			text-align:			center;
+			vertical-align:		middle;
+			width:				50px;
+		}.menu_option_text:hover {
+			color:				#FF8000;
+		}
 
 
 		/* Results */
@@ -243,7 +315,7 @@
 		}
 
 		div.result_dice {
-			height:				32px;
+			height:				36px;
 			margin:				0px;
 			padding:			0px;
 			vertical-align:		top;
@@ -349,7 +421,7 @@
 		div.result_heading {
 			font-family:		Verdana;
 			font-size:			16px;
-			height:				28px;
+			height:				24px;
 			margin:				0px;
 			overflow:			hidden;
 			padding:			0px;
@@ -388,7 +460,7 @@
 			cursor: 			pointer;
 			float:				right;
 			font-family:		Courier New;
-			font-size:			20px;
+			font-size:			32px;
 			font-weight:		900;
 			margin:				0px;
 			margin-top:			-4px;
@@ -398,63 +470,6 @@
 			width:				16px;
 		}.result_remove:hover {
 			color:				#000000;
-		}
-
-		div.result_total {
-			display:			table-cell;
-			float:				right;
-			font-family:		"Arial Black", Arial;
-			font-size:			12px;
-			font-weight:		900;
-			height:				32px;
-			margin:				0px;
-			margin-top:			3px;
-			overflow:			hidden;
-			padding:			0px;
-			text-align:			center;
-			white-space:		nowrap;
-			width:				112px;
-
-			transition-duration: 0.25s;
-			transition-property: opacity,scale;
-			transition-timing-function: ease-in;
-
-			-webkit-transition-duration: 0.25s;
-			-webkit-transition-property: opacity,scale;
-			-webkit-transition-timing-function: ease-in;
-		}
-
-		div.result_total_start {
-			display:			table-cell;
-			float:				right;
-			font-family:		"Arial Black", Arial;
-			font-size:			12px;
-			font-weight:		900;
-			height:				32px;
-			margin:				0px;
-			margin-top:			3px;
-			overflow:			hidden;
-			padding:			0px;
-			text-align:			center;
-			white-space:		nowrap;
-			width:				112px;
-
-			-webkit-opacity: 	0;
-			-moz-opacity: 		0;
-			opacity: 			0;
-
-			transition-duration: 0.25s;
-			transition-property: opacity,scale;
-			transition-timing-function: ease-in;
-
-			-webkit-transition-duration: 0.25s;
-			-webkit-transition-property: opacity,scale;
-			-webkit-transition-timing-function: ease-in;
-
-			-moz-transform: 	scale(0.01);
-			-webkit-transform: 	scale(0.01);
-			-o-transform:		scale(0.01);
-			transform:			scale(0.01);
 		}
 		
 		span.result_value {
@@ -485,16 +500,215 @@
 			margin:				0px;
 			padding:			0px;
 		}
+		
+
+		div.result_entry_column_left {
+			
+			float:				left;
+			height:				64px;
+			margin:				0px 8px 0px 0px;
+			padding:			0px;
+			width:				64px;
+		}
+		
+		div.result_entry_column_right {
+			float:				0px;
+			margin:				0px 0px 0px 0px;
+			padding:			0px;
+		}
+
+		
+		div.result_entry_total {
+			align-items:		center;
+			color:				#000000;
+			display:			flex;
+			font-family:		Prosto One;
+			font-size:			32px;
+			font-weight:		bold;
+			height:				56px;
+			justify-content:	center;
+			margin:				0px;
+			padding:			0px;
+			width:				56px;
+			
+			transition-duration: 0.25s;
+			transition-property: color, font-size, opacity,scale;
+			transition-timing-function: ease-in;
+
+			-webkit-transition-duration: 0.25s;
+			-webkit-transition-property: color, font-size, opacity,scale;
+			-webkit-transition-timing-function: ease-in;
+		}
+
+		div.result_entry_total_back {
+			margin:				0px;
+			padding:			0px;
+			
+			-moz-border-radius:	32px;
+			-webkit-border-radius:32px;
+			border-radius:		32px;
+			border:				4px solid #000000;
+		}
+
+		div.result_entry_total_start {
+			align-items:		center;
+			color:				#ffffff;
+			display:			flex;
+			font-family:		Prosto One;
+			font-size:			640px;
+			font-weight:		bold;
+			height:				56px;
+			justify-content:	center;
+			margin:				0px;
+			padding:			0px;
+			width:				56px;
+			
+			-webkit-opacity: 	0;
+			-moz-opacity: 		0;
+			opacity: 			0;
+		}
+
+		span.result_entry_total_failure {
+			color:				#C00000;
+		}
+
+		span.result_entry_total_pass {
+			color:				#000000;
+		}
+
+		span.result_entry_total_success {
+			color:				#00C000;
+		}
+		
+		
+		div.content_results {
+			background-color:	#FFFFFF;
+			height: 			100%;
+			margin:				0px;
+			min-height: 		100%;
+			overflow:			hidden;
+			overflow-y:			scroll;
+			padding:			0px;
+			position:			absolute;
+			top:				110px;
+			width:				100%;
+		}
+
+		
+		div.menu_colour {
+			cursor: 			pointer;
+			cursor: 			hand;
+			height:				50px;
+			margin:				0px;
+			padding:			0px;
+			width:				50px;
+		}
+
+		div.menu_colour_list {
+			background-color:	#000000;
+			border:				1px;
+			border-color:		#FFFFFF;
+			border-style:		solid;
+			display:			none;
+			height:				120px;
+			left:				8px;
+			margin: 			0px;
+			padding:			4px;
+			position:			absolute;
+			top:				8px;
+			width:				320px;
+			z-index:			60;
+		}
+
+		div.menu_colour_list_entry {
+			background-colour:	#FFFFFF;
+			border:				1px;
+			border-color:		#000000;
+			border-style:		solid;
+			color:				#FFFFFF;
+			cursor: 			pointer;
+			cursor: 			hand;
+			display:			table-cell;
+			float:				left;
+			height:				16px;
+			margin:				1px;
+			padding:			0px;
+			width:				16px;
+
+		}.menu_colour_list_entry:hover {
+			border:				1px;
+			border-color:		#FFFFFF;
+			border-style:		solid;
+		}
+
+		div.menu_colour_list_entry_symbol {
+			color:				#FFFFFF;
+			cursor: 			pointer;
+			cursor: 			hand;
+			display:			none;
+			font-family:		Courier;
+			font-size:			14px;
+			font-weight:		900;
+			margin:				0px;
+			padding:			0px;
+		}
+
+		div.menu_colour_symbol {
+			cursor: 			pointer;
+			cursor: 			hand;
+			font-family:		Impact;
+			font-size:			50px;
+			font-weight:		bold;
+			margin:				0px;
+			margin-left:		3px;
+			margin-top:			-12px;
+			padding:			0px;
+		}
 
 		
     </style>
+	
+	<script id = "db_template_button" type = "notjs">
+		<div class = "db_button_roll_back" onclick = "onButtonPressed('roll', [VALUE]);">
+			<div class = "db_button_roll_text">
+				[TEXT]
+			</div>
+		</div>
+	</script>
+	
+	<script id = "db_template_result" type = "notjs">
+		<div class = "result_entry" title = "[TITLE]">
+			<div class = "result_entry_column_left">
+				<div class = "result_entry_total_back" style = "border-color:#[COLOUR]">
+					<div class = "result_entry_total_start" id = "result_entry_$_total">
+						[RESULT]
+					</div>
+				</div>
+			</div>
+			<div class = "result_entry_column_right">
+				<div class = "result_heading[IS_ALIAS]">
+					<span class = "result_name">[NAME]</span>
+					<span class = "result_description">[DESC]</span><span class = "result_value"> @ [VALUE]</span>
+					<span class = "result_remove" id = "result_entry_$_remove" title = "Remove this result">&times;</span>
+				</div>
+				<div class = "result_dice">
+					[DISPLAY]
+				</div>
+			</div>
+		</div>
+	</script>
+	
   </head>
   <body>
+	
 	<div class = "db_header">
 		<div class = "db_settings">
 			<!-- Colour Selector -->
 			<div class = "menu_option">
-				<div class = "db_colour_select">&nbsp;</div>
+				<div class = "menu_colour_select" id = "db_colour_choice" onclick = "selectColour();">
+					<span class = "menu_colour_select_sign" id = "db_colour_choice_sign">+</span>
+					<div class = "menu_colour_list" id = "db_colours"></div>
+				</div>
 			</div>
 			
 			<!-- Alias -->
@@ -508,7 +722,7 @@
 				<img class = "content_icon" src = "data:image/png;base64,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" title = "The description is listed with the result.  It can be used to add flavour text or indicate what the roll is for." />
 				<input class = "db_input" id = "description" placeholder = "Enter an optional description here." />
 			</div>
-			
+
 			<!-- Info Menu -->
 			<div class = "menu_option_right">
 				<div class = "menu_highlight">
@@ -529,15 +743,23 @@
 				</div>
 			</div>
 
+			<!-- Clear history Menu -->
+			<div class = "menu_option_right">
+				<div class = "menu_highlight" onclick = "clearHistory();">
+					<div class = "menu_icon">
+						<img class = "menu_icon" src = "data:image/png;base64,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" />
+						<img class = "menu_icon_highlight" src = "data:image/png;base64,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" title = "Click here to clear the entire roll history." />
+					</div>
+				</div>
+			</div>
+
 		</div>
 		<div class = "db_buttons" id = "buttons_roll"></div>
 	</div>
 	
-	<div>&nbsp;</div>
-  
-	<div class = "db_results" id = "results"></div>
-	
-	<div>&nbsp;</div>
+	<div class = "content_results">
+		<div class = "db_results" id = "results"></div>
+	</div>
 	
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -545,33 +767,232 @@
 		// Connect to socket.io
 		var socket = io();
 		
+		// Set up the global variables.
+		var g_template_button
+		var g_template_result;
+
+		var animation_time = 500;
+		var result_count = 0;
+		var g_result_index = 0;
+		
+		// Set the default colour to black.
+		var g_colour = "000000";
+		
+		// Create a new array for the colours.
+		var g_colour_array = new Array();
+
+		// Set the message limit.
+		var message_limit = 30;
+
+		// Set the message timeout.
+		var message_timeout = 3000;
+
+		// Create an array for looking up the message entries.
+		var messages = new Array();
+
+		
+		// Clear the current history.
+		function clearHistory() {
+			// Iterate through each of the results in the messages div...
+			$("#results").children(".result").each(function() {
+				// Remove each result.
+				removeResult(this.id);
+			});
+		};
+
+		// Initialize the scripts.
+		function initialize() {
+			// Store the roll button template text.
+			g_template_button = document.getElementById("db_template_button").text;
+
+			// Store the result template text.
+			g_template_result = document.getElementById("db_template_result").text;
+
+			// Initialize the buttons.
+			initializeButtons();
+			
+			// Initialize the colours.
+			initializeColours();
+		}
+
 	  
 		// Initialize the buttons.
 		function initializeButtons() {
 			// Echo some text to the console.
 			console.log("Diceboy >> Initialize Buttons");
 			
-			// Get the ladder div.
-			var e_buttons = document.getElementById("buttons_roll");
+			// Get the button list.
+			var e_list = document.getElementById("buttons_roll");
 
-			// Get the current html.
-			var html = e_buttons.innerHTML;
-		
 			// Iterate through the descriptors and add them to the ladder.
 			for (var i = -4; i <= 4; i++)
 			{
-				// Determine the roll sign.
-				var roll_sign = (i >= 0 ? "+" : "-");
+				// Determine the id string.
+				var id_string = "db_result_button_" + (i + 4);
+			
+				// Create the new element.
+				var e_button = document.createElement("div");
 
-				// Add the new button.
-				html += "<div class = \"db_button_roll\" onclick = \"onButtonPressed('roll', " + i + ");\">";
-				html += "    Roll @ " + roll_sign + Math.abs(i);
+				// Set the element attributes.
+				e_button.setAttribute("class", "db_button_roll");
+				e_button.setAttribute("id", id_string);
+				
+				// Set the default html.
+				var d_html = g_template_button;
+
+				// Set the index value.
+				d_html = d_html.replace(/\$/g, (i + 4));
+
+				// Set the various information for the element.
+				d_html = d_html.replace('[VALUE]', i);
+				d_html = d_html.replace('[TEXT]', (i >= 0 ? "+" : "-") + Math.abs(i));
+
+				// Set the html for the element.
+				e_button.innerHTML = d_html;
+				
+				// Add the button to the list.
+				e_list.appendChild(e_button);
+			}
+		}
+		
+		
+		// Initialize the colours.
+		function initializeColours() {
+			// Very light.
+			g_colour_array.push("FF8080");
+			g_colour_array.push("FFD080");
+			g_colour_array.push("FFFA80");
+			g_colour_array.push("FFFF80");
+			g_colour_array.push("FAFF80");
+			g_colour_array.push("D0FF80");
+			g_colour_array.push("80FF80");
+			g_colour_array.push("80FFD0");
+			g_colour_array.push("80FFFA");
+			g_colour_array.push("80FFFF");
+			g_colour_array.push("80FAFF");
+			g_colour_array.push("80D0FF");
+			g_colour_array.push("8080FF");
+			g_colour_array.push("D080FF");
+			g_colour_array.push("FA80FF");
+			g_colour_array.push("FF80FF");
+
+			// Light.
+			g_colour_array.push("FF4040");
+			g_colour_array.push("FFA040");
+			g_colour_array.push("FFF540");
+			g_colour_array.push("FFFF40");
+			g_colour_array.push("F5FF40");
+			g_colour_array.push("A0FF40");
+			g_colour_array.push("40FF40");
+			g_colour_array.push("40FFA0");
+			g_colour_array.push("40FFF5");
+			g_colour_array.push("40FFFF");
+			g_colour_array.push("40F5FF");
+			g_colour_array.push("40A0FF");
+			g_colour_array.push("4040FF");
+			g_colour_array.push("A040FF");
+			g_colour_array.push("F540FF");
+			g_colour_array.push("FF40FF");
+
+			// Middle.
+			g_colour_array.push("FF0000");
+			g_colour_array.push("FF8000");
+			g_colour_array.push("FFC000");
+			g_colour_array.push("FFFF00");
+			g_colour_array.push("C0FF00");
+			g_colour_array.push("80FF00");
+			g_colour_array.push("00FF00");
+			g_colour_array.push("00FF80");
+			g_colour_array.push("00FFC0");
+			g_colour_array.push("00FFFF");
+			g_colour_array.push("00C0FF");
+			g_colour_array.push("0080FF");
+			g_colour_array.push("0000FF");
+			g_colour_array.push("8000FF");
+			g_colour_array.push("C000FF");
+			g_colour_array.push("FF00FF");
+
+			// Dark.
+			g_colour_array.push("C00000");
+			g_colour_array.push("C04000");
+			g_colour_array.push("C08000");
+			g_colour_array.push("C0C000");
+			g_colour_array.push("80C000");
+			g_colour_array.push("40C000");
+			g_colour_array.push("00C000");
+			g_colour_array.push("00C040");
+			g_colour_array.push("00C080");
+			g_colour_array.push("00C0C0");
+			g_colour_array.push("0080C0");
+			g_colour_array.push("0040C0");
+			g_colour_array.push("0000C0");
+			g_colour_array.push("4000C0");
+			g_colour_array.push("8000C0");
+			g_colour_array.push("C000C0");
+
+			// Very dark.
+			g_colour_array.push("800000");
+			g_colour_array.push("801000");
+			g_colour_array.push("804000");
+			g_colour_array.push("808000");
+			g_colour_array.push("408000");
+			g_colour_array.push("108000");
+			g_colour_array.push("008000");
+			g_colour_array.push("008010");
+			g_colour_array.push("008040");
+			g_colour_array.push("008080");
+			g_colour_array.push("004080");
+			g_colour_array.push("001080");
+			g_colour_array.push("000080");
+			g_colour_array.push("100080");
+			g_colour_array.push("400080");
+			g_colour_array.push("800080");
+
+			// Greyscale.
+			g_colour_array.push("F0F0F0");
+			g_colour_array.push("E0E0E0");
+			g_colour_array.push("D0D0D0");
+			g_colour_array.push("C0C0C0");
+			g_colour_array.push("B0B0B0");
+			g_colour_array.push("A0A0A0");
+			g_colour_array.push("909090");
+			g_colour_array.push("808080");
+			g_colour_array.push("707070");
+			g_colour_array.push("606060");
+			g_colour_array.push("505050");
+			g_colour_array.push("404040");
+			g_colour_array.push("303030");
+			g_colour_array.push("202020");
+			g_colour_array.push("101010");
+			g_colour_array.push("000000");
+
+			// Get the container div.
+			var container = document.getElementById("db_colours");
+
+			// Get the current html.
+			var html = container.innerHTML;
+
+			// Iterate through the highlight and add them to the container.
+			for (var i = 0; i < g_colour_array.length; i++)
+			{
+				// Get the id string.
+				var id_string = "db_colour_" + i;
+
+				// Append the new html.
+				html += "<div class = \"menu_colour_list_entry\" onclick = \"onColourPressed('" + g_colour_array[i] + "');\" style = \"background-color:#" + g_colour_array[i] + ";\">";
+				html += "	<div class = \"menu_colour_list_entry_symbol\" id = \"" + id_string + "\" style = \"color:#" + getDiceSymbolColour(g_colour_array[i]) + "\">&#10004;</div>";
 				html += "</div>";
 			}
 
 			// Set the new html.
-			e_buttons.innerHTML = html;
-		}
+			container.innerHTML = html;
+			
+			// Randomly choose a colour.
+			var random_colour = g_colour_array[Math.floor(Math.random() * g_colour_array.length)];
+			
+			// Set the colour.
+			setColour(random_colour);
+		};
 		
 		
 		// Called when a button is pressed.
@@ -587,7 +1008,7 @@
 						'diceroll', 
 						{ 
 							alias: $('#alias').val(),
-							colour: "000000",
+							colour: g_colour,
 							description: $('#description').val(),
 							id: 'none',
 							value: in_value
@@ -640,19 +1061,6 @@
 		};
 
 
-		var animation_time = 500;
-		var result_count = 0;
-		var result_index = 0;
-
-		// Set the message limit.
-		var message_limit = 30;
-
-		// Set the message timeout.
-		var message_timeout = 3000;
-
-		// Create an array for looking up the message entries.
-		var messages = new Array();
-
 		
 		// Adds a result.
 		function addResult(in_id, in_colour, in_alias, in_description, in_value, in_roll) {
@@ -663,17 +1071,11 @@
 			var username = "Nameless User";
 			var in_username = "User " + in_id;
 			
-			// FIX: Animations flag.
-			var animations_enabled = true;
-
 			// Set up some variable to store the colours.
 			var colour = (in_colour ? in_colour : "000000");
 
 			// Determine the symbol colour.
 			var colour_symbol = getDiceSymbolColour(colour);
-
-			// Set up a variable to store the new html.
-			var html = "";
 
 			// Determine the display class.
 			var display_class = (in_username == username) ? "result_entry_user" : "result_entry";
@@ -698,7 +1100,7 @@
 					// If this is a plus die...
 					case "+":
 						// Set the die html.
-						die_html = "<span class = \"die_plus\" id = \"result_" + result_index + "_sign_" + i + "\" style = \"color:#" + colour_symbol + "\">+</span>";
+						die_html = "<span class = \"die_plus\" id = \"result_" + g_result_index + "_sign_" + i + "\" style = \"color:#" + colour_symbol + "\">+</span>";
 
 						// Increment the roll by one.
 						fudge_roll++;
@@ -710,7 +1112,7 @@
 					// If this is a minus die...
 					case "-":
 						// Set the die html.
-						die_html = "<span class = \"die_minus\" id = \"result_" + result_index + "_sign_" + i + "\" style = \"color:#" + colour_symbol + "\">&#8211;</span>";
+						die_html = "<span class = \"die_minus\" id = \"result_" + g_result_index + "_sign_" + i + "\" style = \"color:#" + colour_symbol + "\">&#8211;</span>";
 
 						// Decrement the roll by one.
 						fudge_roll--;
@@ -722,14 +1124,11 @@
 					// In all other cases...
 					default:
 						// Set the die html.
-						die_html = "<span class = \"die_blank\" id = \"result_" + result_index + "_sign_" + i + "\" style = \"color:#" + colour_symbol + "\">&nbsp;</span>";
+						die_html = "<span class = \"die_blank\" id = \"result_" + g_result_index + "_sign_" + i + "\" style = \"color:#" + colour_symbol + "\">&nbsp;</span>";
 				}
-
-				// Determine the element class.
-				var die_class = animations_enabled ? "result_die_start" : "result_die";
-
+				
 				// Append the appropriate html to the display content.
-				display_content += "<div class = \"" + die_class + "\" id = \"result_" + result_index + "_die_" + i + "\" name = \"result_" + result_index + "_die_" + i + "\" style = \"background-color:#" + colour + ";border-color:" + colour + ";\">" + die_html + "</div>";
+				display_content += "<div class = \"result_die_start\" id = \"result_" + g_result_index + "_die_" + i + "\" name = \"result_" + g_result_index + "_die_" + i + "\" style = \"background-color:#" + colour + ";border-color:#" + colour + ";\">" + die_html + "</div>";
 			}
 
 			// Determine the descriptor to display.
@@ -740,18 +1139,15 @@
 
 			// Determine the display result.
 			var display_result = (fudge_result >= 0 ? "+" : "") + fudge_result;
-
+			
 			// Determine the name to display.
 			var display_name = (in_alias != "") ? (" - " + in_alias + " - ") : in_username;
 
 			// Determine the description text.
 			var display_description = (in_description != "") ? in_description : "rolls the dice";
 
-			// Determine the element class.
-			var total_class = animations_enabled ? "result_total_start" : "result_total";
-
 			// Determine the id string.
-			var id_string = "result_entry_" + result_index;
+			var id_string = "result_entry_" + g_result_index;
 
 			// Create the new element.
 			var e_message = document.createElement("div");
@@ -759,22 +1155,34 @@
 			// Set the element attributes.
 			e_message.setAttribute("class", "result");
 			e_message.setAttribute("id", id_string);
+			
+			// Determine the title text.
+			var title_text = display_name + " " + display_description + " @ " + display_value + " = " + display_result;
+			
+			// Determine the result style.
+			var result_style = (fudge_result > 2) ? "result_entry_total_success" : ((fudge_result < 0) ? "result_entry_total_failure" : "result_entry_total_pass");
+			
+			// Specify the display result formatting.
+			display_result = "<span class = \"" + result_style + "\">" + display_result + "</span>";
+			
+			// Set the default html.
+			var d_html = g_template_result;
 
-			// Add the result to the html.
-			html += "<div class = \"result_entry\" title = \"" + display_name + " " + display_description + " @ " + display_value + " = " + display_result + "\">";
-			html += "	<div class = \"result_heading" + ((in_alias != "") ? "_alias" : "") + "\">";
-			html += "		<span class = \"result_name\">" + display_name + "</span>";
-			html += "       <span class = \"result_description\">" + display_description + "</span><span class = \"result_value\"> @ " + display_value + "</span>";
-			html += "		<span class = \"result_remove\" id = \"result_entry_" + result_index + "_remove\" title = \"Remove this result\">&times;</span>";
-			html += "	</div>";
-			html += "	<div class = \"result_dice\">";
-			html += "		<div class = \"" + total_class + "\" id = \"result_" + result_index + "_total\"><span class = \"result_total\" style = \"border-color:#" + colour + "\">" + display_result + "</span></div>";
-			html += "		" + display_content;
-			html += "	</div>";
-			html += "</div>";
+			// Set the index value.
+			d_html = d_html.replace(/\$/g, g_result_index);
+
+			// Set the various information for the element.
+			d_html = d_html.replace('[TITLE]', title_text);
+			d_html = d_html.replace('[IS_ALIAS]', ((in_alias != "") ? "_alias" : ""));
+			d_html = d_html.replace('[NAME]', display_name);
+			d_html = d_html.replace('[DESC]', display_description);
+			d_html = d_html.replace('[VALUE]', display_value);
+			d_html = d_html.replace('[COLOUR]', colour);
+			d_html = d_html.replace('[DISPLAY]', display_content);
+			d_html = d_html.replace('[RESULT]', display_result);
 
 			// Set the html for the element.
-			e_message.innerHTML = html;
+			e_message.innerHTML = d_html;
 
 			// Append the child into the ladder list.
 			e_results.insertBefore(e_message, e_results.firstChild);
@@ -782,22 +1190,18 @@
 			// If there's a valid element...
 			if (e_message)
 			{
-				// If this is animated...
-				if (animations_enabled)
+				// Iterate through the dice...
+				for (var i = 0; i < 4; i++)
 				{
-					// Iterate through the dice...
-					for (var i = 0; i < 4; i++)
-					{
-						// Animate the dice coming in.
-						window.setTimeout("onAnimation(\"result_" + result_index + "_die_" + i + "\", \"result_die\");", i * animation_time);
-					}
-
-					// Ensure the total is animated.
-					e_message.timeout_result = window.setTimeout("onAnimation(\"result_" + result_index + "_total\", \"result_total\");", animation_time * 5);
+					// Animate the dice coming in.
+					window.setTimeout("onAnimation(\"result_" + g_result_index + "_die_" + i + "\", \"result_die\");", i * animation_time);
 				}
 
+				// Ensure the total is animated.
+				e_message.timeout_result = window.setTimeout("onAnimation(\"result_entry_" + g_result_index + "_total\", \"result_entry_total\");", animation_time * 5);
+
 				// Push the result entry into the message list.
-				messages.push("result_entry_" + result_index);
+				messages.push("result_entry_" + g_result_index);
 
 				// If we've reached the message limit...
 				if (messages.length > message_limit)
@@ -808,13 +1212,13 @@
 			}
 
 			// Get the remove result element by its id.
-			var e_remove = document.getElementById("result_entry_" + result_index + "_remove");
+			var e_remove = document.getElementById("result_entry_" + g_result_index + "_remove");
 
 			// If there's an element...
 			if (e_remove)
 			{
 				// Set the removal target.
-				var e_target = "result_entry_" + result_index;
+				var e_target = "result_entry_" + g_result_index;
 
 				// Add an event listener for click events.
 				e_remove.addEventListener("click", function(e){
@@ -842,7 +1246,7 @@
 			result_count++;
 
 			// Increment the result index.
-			result_index++;
+			g_result_index++;
 		};
 
 		
@@ -857,6 +1261,41 @@
 				// Set the new classname.
 				e_animation.className = in_class;
 			}
+		};
+
+		
+		// Called when an colour is pressed.
+		function onColourPressed(in_value) {
+			// Get the event handler.
+			event = event || window.event;
+			
+			// If there's a stop propagation method...
+			if (event.stopPropagation)
+			{
+				// Stop the event propagation.
+				event.stopPropagation();
+			}
+			else
+			{
+				// Otherwise, cancel bubbling.
+				event.cancelBubble = true;
+			}
+
+			// Set the colour.
+			setColour(in_value);
+
+			// Get the selector div.
+			var e_select = document.getElementById("db_colours");
+
+			// If there's a selector...
+			if (e_select)
+			{
+				// Hide the display.
+				e_select.style.display = "none";
+			}
+			
+			// Stop event bubbling.
+			return false;
 		};
 
 		
@@ -885,6 +1324,20 @@
 
 				// Decrement the result count (to zero).
 				result_count = (result_count >= 1) ? (result_count - 1) : 0;
+			}
+		};
+
+		
+		// Called when the animation is triggered.
+		function onTotal(in_element, in_class) {
+			// Attempt to find the animation element.
+			var e_animation = document.getElementById(in_element);
+
+			// If there's a valid element...
+			if (e_animation)
+			{
+				// Set the new classname.
+				e_animation.className = in_class;
 			}
 		};
 
@@ -933,7 +1386,7 @@
 				window.clearTimeout(e_result.timeout_result);
 
 				// Set the animation.
-				onAnimation(in_element + "_total", "result_total");
+				onAnimation(in_element + "_total", "result_entry_total");
 			}
 
 			// Start fading out the element.
@@ -943,6 +1396,86 @@
 			e_result.timeout_FadeoutDelete = window.setTimeout("onFadeDelete(\"" + in_element + "\");", 250);
 		};
 		
+		
+		// Select a specific colour.
+		function selectColour() {
+			// Get the event handler.
+			event = event || window.event;
+			
+			// If there's a stop propagation method...
+			if (event.stopPropagation)
+			{
+				// Stop the event propagation.
+				event.stopPropagation();
+			}
+			else
+			{
+				// Otherwise, cancel bubbling.
+				event.cancelBubble = true;
+			}
+
+			// Get the selector div.
+			var e_select = document.getElementById("db_colours");
+
+			// If there's no selector, early out...
+			if (!e_select)
+			{
+				return;
+			}
+			
+			// Otherwise reveal the display.
+			e_select.style.display = "block";
+			
+			// Stop event bubbling.
+			return false;
+		}
+		
+		
+		// Called to set the local colour.
+		function setColour(in_colour) {
+			// Store the colour.
+			g_colour = in_colour;
+		
+			// Iterate through the highlight and add them to the container.
+			for (var i = 0; i < g_colour_array.length; i++)
+			{
+				// Get the id string.
+				var id_string = "db_colour_" + i;
+
+				// Get the element from its id string.
+				var e_colour = document.getElementById(id_string);
+
+				// If there's no element, skip the rest...
+				if (!e_colour)
+				{
+					continue;
+				}
+
+				// Set the display value.
+				e_colour.style.display = (g_colour_array[i] == in_colour) ? "block" : "none";
+			}
+
+			// Get the colour choice option.
+			var e_colour = document.getElementById("db_colour_choice");
+
+			// If there's an element...
+			if (e_colour)
+			{
+				// Set the background colour.
+				e_colour.style.backgroundColor = "#" + in_colour;
+			}
+
+			// Get the colour choice sign.
+			var e_sign = document.getElementById("db_colour_choice_sign");
+
+			// If there's an element...
+			if (e_sign)
+			{
+				// Set the colour.
+				e_sign.style.color = "#" + getDiceSymbolColour(in_colour);
+			}
+		};
+		
 
 		// Called when a dice roll is received from the server.
 		socket.on('diceroll', function(msg){
@@ -950,8 +1483,9 @@
 			addResult(msg.id, msg.colour, msg.alias, msg.description, msg.value, msg.roll);
 		});
 		
-		// INITIALIZATION
-		initializeButtons();
+		
+		// Initialize the scripts.
+		initialize();
     </script>
   </body>
 </html>
