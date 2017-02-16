@@ -26,7 +26,7 @@ io.on('connection', function(socket){
 	console.log('Diceboy << User Connected');
 	
 	// Send a message to the client that just connected.
-	socket.emit('client_connected', socket.id);
+	//socket.emit('client_connected', socket.id);
 
 	// Create a new data object, set initial values, and push it into the client list.
 	//var clientInfo = new Object();
@@ -60,7 +60,7 @@ io.on('connection', function(socket){
   
 	// Called when we receive a roll.
 	socket.on('diceroll', function(data){
-		//console.log('message: ' + msg);
+		//console.log('Dice Roll: ' + data);
 		
 		// Set the initial result to nothing.
 		var roll = "";
@@ -86,8 +86,29 @@ io.on('connection', function(socket){
 		};
 		
 		// Emit the message.
-		io.emit('diceroll', roll_data);
+		io.to(data.room).emit('diceroll', roll_data);
 	});
+
+	
+	// Called when we receive a login message.
+	socket.on('login', function(data){
+		// If there's currently a room...
+		if (socket.current_room)
+		{
+			// Leave that room.
+			socket.leave(socket.current_room);
+		}
+		
+		// Set the new room.
+		socket.current_room = data.room;
+
+		// Join the specified room.
+		socket.join(data.room);
+		
+		// Emit the login message to the client.
+		socket.emit('clientlogin', socket.id);
+	});
+
 });
 
 
