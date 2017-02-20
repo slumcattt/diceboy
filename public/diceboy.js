@@ -8,7 +8,7 @@ var g_cookie = document.cookie;
 var g_audio_click;
 var g_audio_roll;
 var g_menu;
-var g_sound = true;
+var g_sound = "true";
 var g_template_button
 var g_template_result;
 
@@ -1168,10 +1168,6 @@ function updateCookie()
 	setCookieValue("sound", g_sound)
 	setCookieValue("username", $('#username').val());
 };
-
-
-// Initialize the scripts.
-initialize();
 
 
 // Called when this client connects.

@@ -33,7 +33,13 @@
 			<audio autoplay preload = "auto" src = "./roll.wav" type = "audio/wav"></audio>
 		</div>
 	</script>
-	
+
+    <!-- <script language = "javascript" type = "text/javascript" src = "https://cdn.socket.io/socket.io-1.2.0.js"></script> //-->
+	<!-- <script language = "javascript" type = "text/javascript" src = "http://code.jquery.com/jquery-1.11.1.js"></script> //-->
+	<script language = "javascript" type = "text/javascript" src = "socket.io-1.2.0.js"></script>
+    <script language = "javascript" type = "text/javascript" src = "jquery-1.11.1.js"></script>
+	<script language = "javascript" type = "text/javascript" src = "diceboy.js"></script>
+
 	</head>
 	<body onclick = "onMenuCancel();">
 	
@@ -172,9 +178,11 @@
 		</div>
 	</div>
 	
-    <script language = "javascript" type = "text/javascript" src = "https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script language = "javascript" type = "text/javascript" src = "http://code.jquery.com/jquery-1.11.1.js"></script>
-	<script language = "javascript" type = "text/javascript" src = "diceboy.js"></script>
-
 	</body>
+	
+	<!-- Script initialization -->
+	<script language = "javascript">
+		// Initialize the scripts.
+		initialize();
+	</script>
 </html>
