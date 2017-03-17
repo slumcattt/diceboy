@@ -41,6 +41,12 @@ io.on('connection', function(socket){
 		// Log some information to the console.
 		console.log('Diceboy << User Disconnected');
 		
+		// If there's a current room...
+		if (socket.current_room && socket.current_name) {
+			// Emit a message to the other clients telling them of the client leaving.
+			io.to(socket.current_room).emit('clientpart', socket.current_name);
+		}
+		
 		// Iterate through the client list.
 		//for (var i = 0, len = g_clients.length; i < len; ++i){
 		//	// Get the specific client.
@@ -86,7 +92,7 @@ io.on('connection', function(socket){
 		};
 		
 		// Emit the message.
-		io.to(data.room).emit('diceroll', roll_data);
+		io.to(socket.current_room).emit('diceroll', roll_data);
 	});
 
 	
@@ -95,18 +101,54 @@ io.on('connection', function(socket){
 		// If there's currently a room...
 		if (socket.current_room)
 		{
+			// Emit a message to the other clients telling them of the client leaving.
+			io.to(socket.current_room).emit('clientpart', socket.current_name);
+			
 			// Leave that room.
 			socket.leave(socket.current_room);
 		}
-		
-		// Set the new room.
+
+		// Set the new username and room.
+		socket.current_name = data.username;
 		socket.current_room = data.room;
+
+		// Set up a variable to store the list of clients.
+		var client_list = new Array();
+		
+		// Get the room list.
+		var room_list = io.sockets.adapter.rooms[socket.current_room];
+		
+		// If there's a valid room list...
+		if (room_list) { 
+			// Iterate through the room list...
+			Object.keys(room_list.sockets).forEach(function(client_id) 
+			{
+				// Get the client socket object from its id...
+				var client_socket = io.sockets.connected[client_id];
+				
+				// If there's a valid socket object and a valid name...
+				if (client_socket && client_socket.current_name) {
+					// Add the name into the list.
+					client_list.push(client_socket.current_name);
+				}
+			}); 
+		} 
 
 		// Join the specified room.
 		socket.join(data.room);
+
+		// Set up the login data.
+		var login_data = {
+			id: socket.id,
+			room: data.room,
+			userlist: JSON.stringify(client_list)
+		};
 		
 		// Emit the login message to the client.
-		socket.emit('clientlogin', socket.id);
+		socket.emit('clientlogin', login_data);
+		
+		// Emit a message to the other clients telling them of the client joining.
+		io.to(socket.current_room).emit('clientjoin', socket.current_name);
 	});
 
 });

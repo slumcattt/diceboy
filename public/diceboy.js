@@ -31,6 +31,15 @@ var g_message_timeout = 3000;
 // Create an array for looking up the message entries.
 var g_messages = new Array();
 
+// Set up a variable to store the local socket id.
+var g_socket_id = 0;
+
+// Set up a variable to store the room name.
+var g_room = "";
+
+// Set up a variable to store the user list.
+var g_userlist = new Array();
+
 
 // Adds a result.
 function addResult(in_username, in_colour, in_alias, in_description, in_value, in_roll) {
@@ -702,7 +711,6 @@ function onButtonPressed(in_key, in_value)
 					alias: $('#alias').val(),
 					colour: g_colour,
 					description: $('#description').val(),
-					room: $('#room').val(),
 					username: $('#username').val(),
 					value: in_value
 				}
@@ -721,6 +729,38 @@ function onButtonPressed(in_key, in_value)
 			console.log("Diceboy >> Unknown Button Press");
 	}
 };
+
+
+// Called when a client joins the current room.
+function onClientJoin(in_name) {
+	// Push the username into the list.
+	g_userlist.push(in_name);
+	
+	// Update the user list.
+	updateUserList();
+}
+
+
+// Called when a client leaves the current room.
+function onClientPart(in_name) {
+	// Iterate through the user list.
+	for (var i = 0, len = g_userlist.length; i < len; ++i){
+		// Get the specific user.
+		var c = g_userlist[i];
+	
+		// If this is our user...
+		if (c == in_name){
+			// Remove the user from the list.
+			g_userlist.splice(i,1);
+			
+			// Then exit out.
+			break;
+		}
+	}
+		
+	// Update the user list.
+	updateUserList();
+}
 
 
 // Called when an colour is pressed.
@@ -784,7 +824,7 @@ function onFadeDelete(in_element) {
 
 
 // Called when the client logs in.
-function onLogin() {
+function onLogin(in_data) {
 	// Update the cookie.
 	updateCookie();
 	
@@ -807,6 +847,14 @@ function onLogin() {
 		// Show the interface menu.
 		e_interface.style.display = "block";
 	}
+	
+	// Store the new data.
+	g_room = in_data.room;
+	g_socket_id = in_data.id;
+	g_userlist = JSON.parse(in_data.userlist);
+	
+	// Update the user list.
+	updateUserList();
 }
 
 
@@ -821,11 +869,33 @@ function onLoginAttempt() {
 		return false;
 	}
 	
+	// Get the current room.
+	var s_room = $('#room');
+	
+	// If there's no room, exit out...
+	if (!s_room)
+	{
+		return false;
+	}
+	
+	// Get the room value.
+	var s_room_value = s_room.val();
+	
+	// If there's no room value...
+	if (!s_room_value)
+	{
+		// Use a default string.
+		s_room_value = "Default";
+
+		// Set the new text.
+		s_room.val(s_room_value);
+	}
+	
 	// Emit a login event.
 	socket.emit(
 		'login', 
 		{ 
-			room: $('#room').val(),
+			room:  s_room_value,
 			username: s_user,
 		}
 	);
@@ -1170,11 +1240,66 @@ function updateCookie()
 };
 
 
+// Updates the user list.
+function updateUserList()
+{
+	// Get the user list.
+	var e_list = document.getElementById("db_userlist");
+	
+	// If there's no list, early out...
+	if (!e_list)
+	{
+		return;
+	}
+	
+	// Set up a variable to store the html.
+	var d_html = "";
+	
+	// Set the room prefix.
+	d_html += "#" + g_room + ":  ";
+	
+	// Sort the user list alphabetically.
+	g_userlist.sort();
+	
+	// Iterate through the user list.
+	for (var i = 0; i < g_userlist.length; i++)
+	{
+		// If this isn't the first name...
+		if (i != 0) 
+		{
+			// Prepend a comma and a space.
+			d_html += ", ";
+		}
+
+		// Append the user name to the string.
+		d_html += g_userlist[i];
+	}
+
+	// Set the new html.
+	db_userlist.innerHTML = d_html;
+}
+
+
 // Called when this client connects.
 socket.on('clientlogin', function(msg){
-	// Trigger the login callback.
-	onLogin();
+	// Trigger the callback.
+	onLogin(msg);
 });
+
+
+// Called when this client joins a room.
+socket.on('clientjoin', function(msg){
+	// Trigger the callback.
+	onClientJoin(msg);
+});
+
+
+// Called when this client leaves a room.
+socket.on('clientpart', function(msg){
+	// Trigger the callback.
+	onClientPart(msg);
+});
+
 
 
 // Called when a dice roll is received from the server.
