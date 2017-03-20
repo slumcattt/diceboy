@@ -23,44 +23,18 @@ app.get('/', function(req, res){
 // When socket.io receives a connection.
 io.on('connection', function(socket){
 	// Log some information to the console.
-	console.log('Diceboy << User Connected');
-	
-	// Send a message to the client that just connected.
-	//socket.emit('client_connected', socket.id);
-
-	// Create a new data object, set initial values, and push it into the client list.
-	//var clientInfo = new Object();
-	//clientInfo.id = socket.id;
-	//g_clients.push(clientInfo);
-
-	// Send a message to the client notifying it of its socked id.
-	//socket.broadcast.to(socket.id).emit('clientinfo', clientInfo);
+	//console.log('Diceboy << User Connected');
 	
 	// Called when the client disconnects.
 	socket.on('disconnect', function(data){
 		// Log some information to the console.
-		console.log('Diceboy << User Disconnected');
+		//console.log('Diceboy << User Disconnected');
 		
 		// If there's a current room...
 		if (socket.current_room && socket.current_name) {
 			// Emit a message to the other clients telling them of the client leaving.
 			io.to(socket.current_room).emit('clientpart', socket.current_name);
 		}
-		
-		// Iterate through the client list.
-		//for (var i = 0, len = g_clients.length; i < len; ++i){
-		//	// Get the specific client.
-		//	var c = g_clients[i];
-		//
-		//	// If this is our client...
-		//	if (c.clientId == socket.id){
-		//		// Remove the client from the list.
-		//		clients.splice(i,1);
-		//		
-		//		// Then exit out.
-		//		break;
-		//	}
-		//}
 	});
   
   
@@ -135,12 +109,12 @@ io.on('connection', function(socket){
 		} 
 
 		// Join the specified room.
-		socket.join(data.room);
+		socket.join(socket.current_room);
 
 		// Set up the login data.
 		var login_data = {
 			id: socket.id,
-			room: data.room,
+			room: socket.current_room,
 			userlist: JSON.stringify(client_list)
 		};
 		
@@ -151,6 +125,79 @@ io.on('connection', function(socket){
 		io.to(socket.current_room).emit('clientjoin', socket.current_name);
 	});
 
+	
+	// Called when we attempt to change the room.
+	socket.on('changeroom', function(data){
+		// If there's currently a room...
+		if (socket.current_room)
+		{
+			// Emit a message to the other clients telling them of the client leaving.
+			io.to(socket.current_room).emit('clientpart', socket.current_name);
+			
+			// Leave that room.
+			socket.leave(socket.current_room);
+		}
+
+		// Set the new room.
+		socket.current_room = data.room;
+
+		// Set up a variable to store the list of clients.
+		var client_list = new Array();
+		
+		// Get the room list.
+		var room_list = io.sockets.adapter.rooms[socket.current_room];
+		
+		// If there's a valid room list...
+		if (room_list) { 
+			// Iterate through the room list...
+			Object.keys(room_list.sockets).forEach(function(client_id) 
+			{
+				// Get the client socket object from its id...
+				var client_socket = io.sockets.connected[client_id];
+				
+				// If there's a valid socket object and a valid name...
+				if (client_socket && client_socket.current_name) {
+					// Add the name into the list.
+					client_list.push(client_socket.current_name);
+				}
+			}); 
+		} 
+
+		// Join the specified room.
+		socket.join(socket.current_room);
+		
+		// Set up the room data.
+		var room_data = {
+			room: socket.current_room,
+			userlist: JSON.stringify(client_list)
+		};
+
+		// Emit the room message to the client.
+		socket.emit('roomchange', room_data);
+
+		// Emit a message to the other clients telling them of the client joining.
+		io.to(socket.current_room).emit('clientjoin', socket.current_name);
+	});
+
+	
+	// Called when we attempt to change the username.
+	socket.on('username', function(data){
+		// If there's currently a room...
+		if (socket.current_room)
+		{
+			// Emit a message to the other clients telling them of the client leaving.
+			io.to(socket.current_room).emit('clientpart', socket.current_name);
+		}
+
+		// Set the new username.
+		socket.current_name = data.username;
+
+		// Emit the username message to the client.
+		socket.emit('username', socket.current_name);
+
+		// Emit a message to the other clients telling them of the client joining.
+		io.to(socket.current_room).emit('clientjoin', socket.current_name);
+	});
 });
 
 

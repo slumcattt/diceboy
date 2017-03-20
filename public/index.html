@@ -6,6 +6,7 @@
 	<link rel = "shortcut icon" href = "favicon.ico">
 	<link rel = "icon" href = "favicon.ico">
 	
+	<!-- Template for roll buttons -->
 	<script id = "db_template_button" type = "notjs">
 		<div class = "db_button_roll_back" onclick = "onButtonPressed('roll', [VALUE]);" title = "Click here to roll the dice.">
 			<div class = "db_button_roll_text">
@@ -14,6 +15,7 @@
 		</div>
 	</script>
 	
+	<!-- Template for results -->
 	<script id = "db_template_result" type = "notjs">
 		<div class = "result_entry" title = "[TITLE]">
 			<div class = "result_entry_column_left">
@@ -35,14 +37,15 @@
 			<audio autoplay preload = "auto" src = "./roll.wav" type = "audio/wav"></audio>
 		</div>
 	</script>
-
-    <!-- <script language = "javascript" type = "text/javascript" src = "https://cdn.socket.io/socket.io-1.2.0.js"></script> //-->
-	<!-- <script language = "javascript" type = "text/javascript" src = "http://code.jquery.com/jquery-1.11.1.js"></script> //-->
+	
+    <!-- <script language = "javascript" type = "text/javascript" src = "https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
+	<!-- <script language = "javascript" type = "text/javascript" src = "http://code.jquery.com/jquery-1.11.1.js"></script> -->
 	<script language = "javascript" type = "text/javascript" src = "socket.io-1.2.0.js"></script>
     <script language = "javascript" type = "text/javascript" src = "jquery-1.11.1.js"></script>
 	<script language = "javascript" type = "text/javascript" src = "diceboy.js"></script>
 
 	</head>
+	
 	<body onclick = "onMenuCancel();">
 	
 	<audio id = "audio_click" preload = "auto" src = "./click.wav" type = "audio/wav"></audio>
@@ -131,12 +134,33 @@
 						<div class = "menu_colour_list" id = "db_colours"></div>
 					</div>
 				</div>
-				
+
+				<!-- Change Room Menu -->
+				<div class = "menu_option_right">
+					<div class = "menu_button" onclick = "selectMenuButton('db_room_dropdown');document.getElementById('room_alt').focus();" title = "Click here to change your room.">
+						<div style = "background-image:url('./icon.reroom.png');height:50px;width:50px;">
+							<img class = "menu_icon" src = "./icon.reroom.hi.png" />
+						</div>
+					</div>
+					
+					<div class = "menu_dropdown" id = "db_room_dropdown" style = "left:-450px;">
+						<div class = "menu_input" id = "db_room" style = "width:500px;">
+							<input class = "menu_input" id = "room_alt" placeholder = "Enter your room here." style = "width:500px;" />
+						</div>
+					</div>
+				</div>
+
 				<!-- Change user Menu -->
 				<div class = "menu_option_right">
-					<div class = "menu_button" onclick = "onLogout();playSound('click');" title = "Click here to change your user details.">
+					<div class = "menu_button" onclick = "selectMenuButton('db_user_dropdown');document.getElementById('username_alt').focus();" title = "Click here to change your user details.">
 						<div style = "background-image:url('./icon.reuser.png');height:50px;width:50px;">
 							<img class = "menu_icon" src = "./icon.reuser.hi.png" />
+						</div>
+					</div>
+					
+					<div class = "menu_dropdown" id = "db_user_dropdown" style = "left:-450px;">
+						<div class = "menu_input" id = "db_user" style = "width:500px;">
+							<input class = "menu_input" id = "username_alt" placeholder = "Enter your username here." style = "width:500px;" />
 						</div>
 					</div>
 				</div>
@@ -174,10 +198,12 @@
 			</div>
 		</div>
 		
+		
 		<!-- Results content -->
 		<div class = "content_results">
 			<div class = "db_results" id = "results"></div>
 		</div>
+		
 		
 		<!-- Userlist content -->
 		<div class = "content_userlist" id = "db_userlist" style = "background-color:#000000;color:#FFFFFF;font-family:Verdana;font-size:18px;font-weight:bold;padding:4px;position:absolute;bottom:0px;width:100%;">

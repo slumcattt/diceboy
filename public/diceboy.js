@@ -42,7 +42,8 @@ var g_userlist = new Array();
 
 
 // Adds a result.
-function addResult(in_username, in_colour, in_alias, in_description, in_value, in_roll) {
+function addResult(in_username, in_colour, in_alias, in_description, in_value, in_roll) 
+{
 	// Get the ladder div.
 	var e_results = document.getElementById("results");
 	
@@ -239,7 +240,8 @@ function addResult(in_username, in_colour, in_alias, in_description, in_value, i
 
 
 // Clear the current history.
-function clearHistory() {
+function clearHistory() 
+{
 	// Iterate through each of the results in the messages div...
 	$("#results").children(".result").each(function() {
 		// Remove each result.
@@ -287,7 +289,8 @@ function getCookieValue(in_key)
 
 
 // Initialize the scripts.
-function initialize() {
+function initialize() 
+{
 	// Store the roll button template text.
 	g_template_button = document.getElementById("db_template_button").text;
 
@@ -312,7 +315,8 @@ function initialize() {
 
 
 // Initialize the audio.
-function initializeAudio() {
+function initializeAudio() 
+{
 	// Store the audio click element.
 	g_audio_click = document.getElementById("audio_click");
 	
@@ -322,7 +326,8 @@ function initializeAudio() {
 
 
 // Initialize the buttons.
-function initializeButtons() {
+function initializeButtons() 
+{
 	// Get the button list.
 	var e_list = document.getElementById("buttons_roll");
 
@@ -359,7 +364,8 @@ function initializeButtons() {
 
 
 // Initialize the colours.
-function initializeColours() {
+function initializeColours() 
+{
 	// Very light.
 	g_colour_array.push("FF8080");
 	g_colour_array.push("FFD080");
@@ -538,6 +544,7 @@ function initializeCookies()
 	{
 		// Set the room value from the cookie.
 		$('#room').val(cookie_room);
+		$('#room_alt').val(cookie_room);
 	}
 
 	// Get the sound flag from the cookie.
@@ -571,14 +578,38 @@ function initializeCookies()
 	{
 		// Set the username value from the cookie.
 		$('#username').val(cookie_username);
+		$('#username_alt').val(cookie_username);
 	}
 };
 
 
 // Initialize the inputs.
-function initializeInputs() {
+function initializeInputs() 
+{
 	// Add a key down event to the alias input box.
 	document.getElementById("alias").addEventListener("keydown", function(event) {
+		// Get the input event.
+		var o_event = event || window.event;
+		
+		// Get the character code from the event.
+		var c_code = o_event.which || o_event.keyCode;
+
+		// If this is the enter key...
+		if (c_code == '13') 
+		{
+			// Trigger the menu cancellation.
+			onMenuCancel();
+			
+			// Stop bubbling.
+			return false;
+		}
+		
+		// Return true.
+		return true;
+	});
+
+	// Add a key down event to the description input box.
+	document.getElementById("description").addEventListener("keydown", function(event) {
 		// Get the input event.
 		var o_event = event || window.event;
 		
@@ -642,11 +673,56 @@ function initializeInputs() {
 		// Return true.
 		return true;
 	});
+
+	// Add a key down event to the alt room input box.
+	document.getElementById("room_alt").addEventListener("keydown", function(event) {
+		// Get the input event.
+		var o_event = event || window.event;
+		
+		// Get the character code from the event.
+		var c_code = o_event.which || o_event.keyCode;
+
+		// If this is the enter key...
+		if (c_code == '13') 
+		{
+			// Trigger the change room code.
+			onRoomChangeAttempt();
+			
+			// Stop bubbling.
+			return false;
+		}
+		
+		// Return true.
+		return true;
+	});
+
+	// Add a key down event to the alt username input box.
+	document.getElementById("username_alt").addEventListener("keydown", function(event) {
+		// Get the input event.
+		var o_event = event || window.event;
+		
+		// Get the character code from the event.
+		var c_code = o_event.which || o_event.keyCode;
+
+		// If this is the enter key...
+		if (c_code == '13') 
+		{
+			// Trigger the change username code.
+			onUserChangeAttempt();
+			
+			// Stop bubbling.
+			return false;
+		}
+		
+		// Return true.
+		return true;
+	});
 };
 
 
 // Returns the symbol colour for a die.
-function getDiceSymbolColour(in_colour) {
+function getDiceSymbolColour(in_colour) 
+{
 	// If there's no valid colour...
 	if (!in_colour)
 	{
@@ -680,7 +756,8 @@ function getDiceSymbolColour(in_colour) {
 
 
 // Called when the animation is triggered.
-function onAnimation(in_element, in_class) {
+function onAnimation(in_element, in_class) 
+{
 	// Attempt to find the animation element.
 	var e_animation = document.getElementById(in_element);
 
@@ -732,7 +809,8 @@ function onButtonPressed(in_key, in_value)
 
 
 // Called when a client joins the current room.
-function onClientJoin(in_name) {
+function onClientJoin(in_name) 
+{
 	// Push the username into the list.
 	g_userlist.push(in_name);
 	
@@ -742,7 +820,8 @@ function onClientJoin(in_name) {
 
 
 // Called when a client leaves the current room.
-function onClientPart(in_name) {
+function onClientPart(in_name) 
+{
 	// Iterate through the user list.
 	for (var i = 0, len = g_userlist.length; i < len; ++i){
 		// Get the specific user.
@@ -764,7 +843,8 @@ function onClientPart(in_name) {
 
 
 // Called when an colour is pressed.
-function onColourPressed(in_value) {
+function onColourPressed(in_value) 
+{
 	// Play the click sound.
 	playSound('click');
 	
@@ -795,7 +875,8 @@ function onColourPressed(in_value) {
 
 
 // Called to fade out an element.
-function onFadeDelete(in_element) {
+function onFadeDelete(in_element) 
+{
 	// If there's no element, early out...
 	if (!in_element)
 	{
@@ -824,7 +905,8 @@ function onFadeDelete(in_element) {
 
 
 // Called when the client logs in.
-function onLogin(in_data) {
+function onLogin(in_data) 
+{
 	// Update the cookie.
 	updateCookie();
 	
@@ -859,7 +941,8 @@ function onLogin(in_data) {
 
 
 // Called to attempt to login using the current values.
-function onLoginAttempt() {
+function onLoginAttempt() 
+{
 	// Get the current username.
 	var s_user = $('#username').val();
 
@@ -889,6 +972,9 @@ function onLoginAttempt() {
 
 		// Set the new text.
 		s_room.val(s_room_value);
+		
+		// Set the alt value.
+		$('#room_alt').val(s_room_value);
 	}
 	
 	// Emit a login event.
@@ -902,7 +988,8 @@ function onLoginAttempt() {
 };
 
 // Called to logout the current user.
-function onLogout() {
+function onLogout() 
+{
 	// Get the login element.
 	var e_login = document.getElementById("db_login");
 	
@@ -926,7 +1013,8 @@ function onLogout() {
 
 
 // Called when a menu is cancelled.
-function onMenuCancel() {
+function onMenuCancel() 
+{
 	// Get the selector div.
 	var e_alias = document.getElementById("db_alias_dropdown");
 
@@ -957,6 +1045,26 @@ function onMenuCancel() {
 		e_description.style.display = "none";
 	}
 
+	// Get the selector div.
+	var e_room = document.getElementById("db_room_dropdown");
+
+	// If there's a selector...
+	if (e_room)
+	{
+		// Hide the display.
+		e_room.style.display = "none";
+	}
+
+	// Get the selector div.
+	var e_username = document.getElementById("db_user_dropdown");
+
+	// If there's a selector...
+	if (e_username)
+	{
+		// Hide the display.
+		e_username.style.display = "none";
+	}
+
 	// Clear the menu value.
 	g_menu = "";
 
@@ -965,8 +1073,70 @@ function onMenuCancel() {
 };
 
 
+// Called when the room actually changes.
+function onRoomChange(in_data) 
+{
+	// Set the room values.
+	$('#room').val(in_data.room);
+	$('#room_alt').val(in_data.room);
+
+	// Store the new data.
+	g_room = in_data.room;
+	g_userlist = JSON.parse(in_data.userlist);
+
+	// Update the cookies.
+	updateCookie();
+
+	// Play the click sound.
+	playSound('click');
+
+	// Trigger the menu cancellation.
+	onMenuCancel();
+	
+	// Update the user list.
+	updateUserList();
+}
+
+
+// Called when the room is changed.
+function onRoomChangeAttempt() 
+{
+	// Get the current room.
+	var s_room = $('#room_alt').val();
+
+	// If there's no room, exit out...
+	if (!s_room)
+	{
+		// Use a default string.
+		s_room = "Default";
+	}
+
+	// If the room is already set...
+	if (s_room == g_room)
+	{
+		// Play the click sound.
+		playSound('click');
+
+		// Trigger the menu cancellation.
+		onMenuCancel();
+
+		// Then exit.
+		return;
+	}
+	
+	// Emit a login event.
+	socket.emit(
+		'changeroom', 
+		{ 
+			room: s_room
+		}
+	);
+}
+
+
 // Called when the animation is triggered.
-function onTotal(in_element, in_class) {
+function onTotal(in_element, in_class) 
+{
 	// Attempt to find the animation element.
 	var e_animation = document.getElementById(in_element);
 
@@ -979,8 +1149,49 @@ function onTotal(in_element, in_class) {
 };
 
 
+// Called when the user name actually changes.
+function onUserChange(in_name) 
+{
+	// Set the username values.
+	$('#username').val(in_name);
+	$('#username_alt').val(in_name);
+	
+	// Update the cookies.
+	updateCookie();
+
+	// Play the click sound.
+	playSound('click');
+
+	// Trigger the menu cancellation.
+	onMenuCancel();
+}
+
+
+// Called when the user name is changed.
+function onUserChangeAttempt() 
+{
+	// Get the current username.
+	var s_user = $('#username_alt').val();
+
+	// If there's no username, exit out...
+	if (!s_user)
+	{
+		return false;
+	}
+	
+	// Emit a login event.
+	socket.emit(
+		'username', 
+		{ 
+			username: s_user
+		}
+	);
+}
+
+
 // Play a specified sound.
-function playSound(in_sound) {
+function playSound(in_sound) 
+{
 	// If the sound is disabled, early out...
 	if (g_sound == "false")
 	{
@@ -1008,7 +1219,8 @@ function playSound(in_sound) {
 
 
 // Called to remove a result.
-function removeResult(in_element) {
+function removeResult(in_element) 
+{
 	// If there's no element, early out...
 	if (!in_element)
 	{
@@ -1063,7 +1275,8 @@ function removeResult(in_element) {
 
 
 // Select a specific menu.
-function selectMenuButton(in_button) {
+function selectMenuButton(in_button) 
+{
 	// Store the previous menu.
 	var e_menu = g_menu;
 
@@ -1122,7 +1335,8 @@ function selectMenuButton(in_button) {
 
 
 // Selects a sound button.
-function selectSoundButton(in_toggle) {
+function selectSoundButton(in_toggle) 
+{
 	// Set the new sound value.
 	g_sound = in_toggle;
 
@@ -1170,7 +1384,8 @@ function selectSoundButton(in_toggle) {
 
 
 // Called to set the local colour.
-function setColour(in_colour) {
+function setColour(in_colour) 
+{
 	// Store the colour.
 	g_colour = in_colour;
 
@@ -1281,29 +1496,42 @@ function updateUserList()
 
 
 // Called when this client connects.
-socket.on('clientlogin', function(msg){
+socket.on('clientlogin', function(msg) {
 	// Trigger the callback.
 	onLogin(msg);
 });
 
 
 // Called when this client joins a room.
-socket.on('clientjoin', function(msg){
+socket.on('clientjoin', function(msg) {
 	// Trigger the callback.
 	onClientJoin(msg);
 });
 
 
 // Called when this client leaves a room.
-socket.on('clientpart', function(msg){
+socket.on('clientpart', function(msg) {
 	// Trigger the callback.
 	onClientPart(msg);
 });
 
 
-
 // Called when a dice roll is received from the server.
-socket.on('diceroll', function(msg){
+socket.on('diceroll', function(msg) {
 	// Trigger the appropriate function.
 	addResult(msg.username, msg.colour, msg.alias, msg.description, msg.value, msg.roll);
+});
+
+
+// Called when this room changes.
+socket.on('roomchange', function(msg) {
+	// Trigger the callback.
+	onRoomChange(msg);
+});
+
+
+// Called when this user name changes.
+socket.on('username', function(msg) {
+	// Trigger the callback.
+	onUserChange(msg);
 });
