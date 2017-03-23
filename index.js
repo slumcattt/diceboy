@@ -16,6 +16,7 @@ app.use(express.static('public'));
 
 // Get everything else as the index file.
 app.get('/', function(req, res){
+	//res.status('200').sendFile(__dirname + '/public/index.html');
 	res.sendFile(__dirname + '/public/index.html');
 });
 
